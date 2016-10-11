@@ -1,7 +1,7 @@
 var express = require('express'); //生成express实例app
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var logger = require('morgan'); //morgan插件的路径地址
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -40,7 +40,10 @@ app.use(session({
     port: settings.port
   })
 }));
+//session会话，使用 express-session 和 connect-mongo 模块实现了将会化信息存储到mongoldb中。secret 用来防止篡改 cookie，key 的值为 cookie 的名字，通过设置 cookie 的 maxAge 值设定 cookie 的生存期，这里我们设置 cookie 的生存期为 30 天，设置它的 store 参数为 MongoStore 实例，把会话信息存储到数据库中，以避免丢失。在后面的小节中，我们可以通过 req.session 获取当前用户的会话对象，获取用户的相关信息。
+//store数据存储,new了一个MongoStore的存储空间，各个配置属性，都是设置的
 app.use(flash());
+//flash是session会话当中的一部分，负责存储错误正确信息，时缓存
 app.use('/', routes);
 app.use('/users', users);
 
